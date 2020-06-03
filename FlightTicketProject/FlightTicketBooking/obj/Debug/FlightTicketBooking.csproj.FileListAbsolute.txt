@@ -10,3 +10,6 @@ D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\Flig
 D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\FlightTicketBooking\obj\Debug\FlightTicketBooking.exe
 D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\FlightTicketBooking\obj\Debug\FlightTicketBooking.pdb
 D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\FlightTicketBooking\obj\Debug\FlightTicketBooking.Login.resources
+D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\FlightTicketBooking\obj\Debug\FlightTicketBooking.Customers.resources
+D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\FlightTicketBooking\obj\Debug\FlightTicketBooking.Tickets.resources
+D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\FlightTicketBooking\obj\Debug\FlightTicketBooking.Bookings.resources

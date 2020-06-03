@@ -16,29 +16,70 @@ namespace FlightTicketBooking
         {
             InitializeComponent();
         }
-
-        private void MainForm_Load(object sender, EventArgs e)
+        private void ShowNewForm(object sender, EventArgs e)
         {
-            Splash splash = new Splash();
-            Login login = new Login();
-            splash.ShowDialog();
-            if (splash.DialogResult != DialogResult.OK)
+            Form childForm = null;
+            ToolStripMenuItem m = (ToolStripMenuItem)sender;
+
+            switch (m.Tag)
             {
-                this.Close();
+                case "Customers":
+                    childForm = new Customers(this);
+                    break;
+                case "Tickets":
+                    childForm = new Tickets(this);
+                    break;
+                case "Bookings":
+                    childForm = new Bookings(this);
+                    break;
             }
-            else
+
+            if (childForm != null)
             {
-                login.ShowDialog();
-                if (login.DialogResult != DialogResult.OK)
+                foreach (Form f in this.MdiChildren)
                 {
-                    this.Close();
-                }
-                else
-                {
-                    this.Show();
+                    if (f.GetType() == childForm.GetType())
+                    {
+                        /*
+                         This technique requires consideration taken on child forms that load data on form load. 
+                         This will result in stale data if data is only retrieved on form load. Also consider loading data on form Activated event also.
+                         See frmDataGridViewEvents, frmDataGridViewControls, frmDataGridViewCRUD
+                         
+                         */
+                        f.Activate();
+                        return;
+                    }
                 }
 
+                childForm.MdiParent = this;
+                childForm.Show();
             }
         }
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            //Splash splash = new Splash();
+            //Login login = new Login();
+            //splash.ShowDialog();
+            //if (splash.DialogResult != DialogResult.OK)
+            //{
+            //    this.Close();
+            //}
+            //else
+            //{
+            //    login.ShowDialog();
+            //    if (login.DialogResult != DialogResult.OK)
+            //    {
+            //        this.Close();
+            //    }
+            //    else
+            //    {
+            //        this.Show();
+            //    }
+
+            //}
+            toolStripStatusLabel1.Text = "Login Date: " + DateTime.Now.ToShortDateString();
+        }
+
+      
     }
 }
