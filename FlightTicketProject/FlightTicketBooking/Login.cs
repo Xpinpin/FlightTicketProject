@@ -29,14 +29,16 @@ namespace FlightTicketBooking
         {
             try
             {
-                if (txtUsername.Text == Environment.UserDomainName &&
-                    txtPassword.Text.Trim().ToLower() == ConfigurationManager.AppSettings["DefaultPassword"].ToString().ToLower())
+                string sqlLogin = $"SELECT Password FROM Login WHERE Username = '{txtUsername.Text.Trim()}'";
+                string password = (DataAccess.GetValue(sqlLogin)).ToString();
+
+                if (txtPassword.Text.Trim() == password)
                 {
                     DialogResult = DialogResult.OK;
                 }
                 else
                 {
-                    MessageBox.Show("Login Failed.");
+                    MessageBox.Show("Login Failed. Check the username and password again.");
                 }
             }
             catch (Exception ex)

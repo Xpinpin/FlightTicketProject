@@ -107,6 +107,12 @@
     <Compile Include="Tickets.Designer.cs">
       <DependentUpon>Tickets.cs</DependentUpon>
     </Compile>
+    <Compile Include="TicketsBrowse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TicketsBrowse.Designer.cs">
+      <DependentUpon>TicketsBrowse.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIUtilities.cs" />
     <EmbeddedResource Include="Bookings.resx">
       <DependentUpon>Bookings.cs</DependentUpon>
@@ -137,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tickets.resx">
       <DependentUpon>Tickets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TicketsBrowse.resx">
+      <DependentUpon>TicketsBrowse.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

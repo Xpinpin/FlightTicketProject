@@ -14,3 +14,4 @@ D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\Flig
 D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\FlightTicketBooking\obj\Debug\FlightTicketBooking.Tickets.resources
 D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\FlightTicketBooking\obj\Debug\FlightTicketBooking.Bookings.resources
 D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\FlightTicketBooking\obj\Debug\FlightTicketBooking.CustomerBrowse.resources
+D:\Spring 2020\Database Programming\FlightTicketProject\FlightTicketProject\FlightTicketBooking\obj\Debug\FlightTicketBooking.TicketsBrowse.resources

@@ -112,3 +112,30 @@ FROM Booking
 INNER JOIN Ticket ON Booking.TicketID = Ticket.TicketID
 WHERE Booking.CustomerID = 1
 ORDER BY DateBooked
+
+
+SELECT
+	FirstName + ' ' + LastName, DateBooked, Subtotal AS TicketPrice, Tax, Total AS BookingPrice
+FROM Customer
+INNER JOIN Booking ON Customer.CustomerID = Booking.CustomerID
+WHERE Booking.TicketID = 12
+
+SELECT IsPaid FROM Booking
+INNER JOIN Customer ON Booking.CustomerID = Customer.CustomerID
+WHERE FirstName + ' ' + LastName = 'Nguyen Pham';
+
+CREATE TABLE Login (
+	UserID INT PRIMARY KEY IDENTITY(1,1),
+	Username VARCHAR(50) NOT NULL,
+	Password VARCHAR(50) NOT NULL
+
+)
+
+INSERT INTO Login
+VALUES
+('nguyenpham','12345'),
+('ryanhiga','54321'),
+('flightcharles','13579'),
+('sophomoreplay','il9a1tb');
+
+SELECT * FROM Login

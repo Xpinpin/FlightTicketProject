@@ -30,8 +30,8 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.grpCustomers = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.cmbCustomers = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.dgvInfo = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
             this.lblAddress = new System.Windows.Forms.Label();
@@ -66,15 +66,6 @@
             this.grpCustomers.TabStop = false;
             this.grpCustomers.Text = "Customer";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(28, 27);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 17);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Name:";
-            // 
             // cmbCustomers
             // 
             this.cmbCustomers.FormattingEnabled = true;
@@ -83,6 +74,15 @@
             this.cmbCustomers.Size = new System.Drawing.Size(220, 24);
             this.cmbCustomers.TabIndex = 1;
             this.cmbCustomers.SelectionChangeCommitted += new System.EventHandler(this.CmbCustomers_SelectionChangeCommitted);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(28, 27);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(49, 17);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Name:";
             // 
             // dgvInfo
             // 
@@ -182,6 +182,7 @@
             this.Name = "CustomerBrowse";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CustomerBrowse";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CustomerBrowse_FormClosed);
             this.Load += new System.EventHandler(this.CustomerBrowse_Load);
             this.grpCustomers.ResumeLayout(false);
             this.grpCustomers.PerformLayout();

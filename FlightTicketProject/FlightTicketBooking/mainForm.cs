@@ -35,6 +35,9 @@ namespace FlightTicketBooking
                 case "CustomersBrowse":
                     childForm = new CustomerBrowse(this);
                     break;
+                case "TicketsBrowse":
+                    childForm = new TicketsBrowse(this);
+                    break;
 
             }
 
@@ -45,6 +48,47 @@ namespace FlightTicketBooking
                     if (f.GetType() == childForm.GetType())
                     {
                        
+                        f.Activate();
+                        return;
+                    }
+                }
+
+                childForm.MdiParent = this;
+                childForm.Show();
+            }
+        }
+        private void ToolStrip_ShowNewForm(object sender, EventArgs e)
+        {
+            Form childForm = null;
+            ToolStripButton m = (ToolStripButton)sender;
+
+            switch (m.Tag)
+            {
+                case "Customers":
+                    childForm = new Customers(this);
+                    break;
+                case "Tickets":
+                    childForm = new Tickets(this);
+                    break;
+                case "Bookings":
+                    childForm = new Bookings(this);
+                    break;
+                case "CustomersBrowse":
+                    childForm = new CustomerBrowse(this);
+                    break;
+                case "TicketsBrowse":
+                    childForm = new TicketsBrowse(this);
+                    break;
+
+            }
+
+            if (childForm != null)
+            {
+                foreach (Form f in this.MdiChildren)
+                {
+                    if (f.GetType() == childForm.GetType())
+                    {
+
                         f.Activate();
                         return;
                     }

@@ -58,6 +58,7 @@ namespace FlightTicketBooking
                                INNER JOIN Ticket ON Booking.TicketID = Ticket.TicketID
                                WHERE Booking.CustomerID = {cmbCustomers.SelectedValue}
                                ORDER BY DateBooked";
+                sqlDgv = DataAccess.SQLCleaner(sqlDgv);
 
                 DataTable dtDgv = DataAccess.GetData(sqlDgv);
                 if (dtDgv.Rows.Count == 0)
@@ -97,6 +98,11 @@ namespace FlightTicketBooking
                 totalPrice += Convert.ToDecimal(dgvInfo.Rows[i].Cells["Total"].Value.ToString());
             }
             MessageBox.Show($"The total money this customer has spent for booking tickets is {totalPrice.ToString("c")}");
+        }
+
+        private void CustomerBrowse_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            myParent.toolStripStatusLabel5.Text = "";
         }
     }
 }
