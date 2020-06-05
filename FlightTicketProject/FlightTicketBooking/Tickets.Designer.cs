@@ -67,6 +67,7 @@
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnFirst = new System.Windows.Forms.Button();
             this.errProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errProvider)).BeginInit();
@@ -444,12 +445,24 @@
             // 
             this.errProvider.ContainerControl = this;
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.Red;
+            this.label15.Location = new System.Drawing.Point(12, 409);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(268, 32);
+            this.label15.TabIndex = 21;
+            this.label15.Text = "*The abbreviations can be found in the Help\r\n > Definition";
+            // 
             // Tickets
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.btnLast);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPrevious);
@@ -467,6 +480,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tickets";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Tickets_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Tickets_FormClosed);
             this.Load += new System.EventHandler(this.Tickets_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -518,5 +532,6 @@
         private System.Windows.Forms.ComboBox cmbStart;
         private System.Windows.Forms.ComboBox cmbDestination;
         private System.Windows.Forms.ErrorProvider errProvider;
+        private System.Windows.Forms.Label label15;
     }
 }

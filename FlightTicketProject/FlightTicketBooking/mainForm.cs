@@ -32,6 +32,10 @@ namespace FlightTicketBooking
                 case "Bookings":
                     childForm = new Bookings(this);
                     break;
+                case "CustomersBrowse":
+                    childForm = new CustomerBrowse(this);
+                    break;
+
             }
 
             if (childForm != null)
@@ -40,12 +44,7 @@ namespace FlightTicketBooking
                 {
                     if (f.GetType() == childForm.GetType())
                     {
-                        /*
-                         This technique requires consideration taken on child forms that load data on form load. 
-                         This will result in stale data if data is only retrieved on form load. Also consider loading data on form Activated event also.
-                         See frmDataGridViewEvents, frmDataGridViewControls, frmDataGridViewCRUD
-                         
-                         */
+                       
                         f.Activate();
                         return;
                     }
@@ -80,6 +79,24 @@ namespace FlightTicketBooking
             toolStripStatusLabel1.Text = "Login Date: " + DateTime.Now.ToShortDateString();
         }
 
-      
+        private void DefinitionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string helpers = "PLACES: \r\n" +
+                             "NRT - Narita Airport (Tokyo) \r\n" +
+                             "HND - Haneda Airport (Tokyo) \r\n" +
+                             "ITM - Osaka International Airport (Osaka) \r\n" +
+                             "YYZ - Pearson Internation Airport (Toronto) \r\n" +
+                             "YUL - Pierre Elliott Trudeau Internation Airport (Montreal) \r\n" +
+                             "YVR - Vancouver International Airport (Vancouver)\r\n" +
+                             "YQM - Greater Moncton Roméo LeBlanc International Airport (Moncton)\r\n" +
+                             "YHZ - Halifax Stanfield International Airport (Halifax)\r\n" +
+                             "-----------------------------------------------------------------------------\r\n" +
+                             "AIRLINES: \r\n" +
+                             "AC - Air Canada \r\n" +
+                             "WJA - Westjet Airlines \r\n" +
+                             "ANA - All Nippon Airlines \r\n" +
+                             "EVA - Eva Airlines";
+            MessageBox.Show(helpers,"Definition");
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -43,7 +44,7 @@ namespace FlightTicketBooking
         {
             int totalRecord = Convert.ToInt32(DataAccess.GetValue("SELECT COUNT(*) FROM Ticket"));
 
-            myParent.toolStripStatusLabel2.Text = $"Displaying Ticket {currentRecord} out of {totalRecord}";
+            myParent.toolStripStatusLabel3.Text = $"Displaying Ticket {currentRecord} out of {totalRecord} |";
         }
 
         private void Tickets_Load(object sender, EventArgs e)
@@ -368,9 +369,16 @@ namespace FlightTicketBooking
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("Are you sure you want to delete this ticket?","Deletion!",MessageBoxButtons.YesNo) == DialogResult.Yes)
+            try
             {
-                DeleteTicket();
+                if (MessageBox.Show("Are you sure you want to delete this ticket?", "Deletion!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    DeleteTicket();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("This ticket is currently being booked. You can not delete this.");
             }
         }
 
@@ -389,6 +397,11 @@ namespace FlightTicketBooking
                 MessageBox.Show("The database records no rows affected");
             }
 
+        }
+
+        private void Tickets_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            myParent.toolStripStatusLabel3.Text = "";
         }
     }
 }

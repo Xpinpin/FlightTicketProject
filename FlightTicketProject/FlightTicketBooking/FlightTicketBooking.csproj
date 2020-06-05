@@ -68,6 +68,12 @@
     <Compile Include="Bookings.Designer.cs">
       <DependentUpon>Bookings.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomerBrowse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerBrowse.Designer.cs">
+      <DependentUpon>CustomerBrowse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Customers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     <Compile Include="UIUtilities.cs" />
     <EmbeddedResource Include="Bookings.resx">
       <DependentUpon>Bookings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomerBrowse.resx">
+      <DependentUpon>CustomerBrowse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>

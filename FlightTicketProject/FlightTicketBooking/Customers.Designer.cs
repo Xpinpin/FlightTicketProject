@@ -470,6 +470,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Customers";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Customers_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Customers_FormClosed);
             this.Load += new System.EventHandler(this.Customers_Load);
             this.grpName.ResumeLayout(false);
             this.grpName.PerformLayout();

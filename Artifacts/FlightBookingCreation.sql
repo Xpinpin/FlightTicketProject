@@ -91,3 +91,24 @@ VALUES
 (1,14, 1000.45, 150.07, 1150.52,CONVERt(datetime,'23-01-2020',105),'Credit Card',1,NULL),
 (3, 12, 760.20, 114.03, 874.23,CONVERT(datetime,'04-05-2020',105),'PayPal', 1, NULL),
 (4,14, 1000.45, 150.07, 1150.52, CONVERT(datetime,'04-04-2020',105),'By Cash',0,'Will be paid at the airport in cash');
+
+SELECT * FROM Customer;
+
+SELECT  
+	   DepartureAirport + ' - ' + ArrivalAirport + ' (' + CONVERT(VARCHAR(MAX),DepartureTime) + ')'AS TicketInfo,
+	   Booking.DateBooked,
+	   Booking.Total
+FROM Customer 
+INNER JOIN Booking ON Customer.CustomerID = Booking.CustomerID 
+INNER JOIN Ticket ON Ticket.TicketID = Booking.TicketID
+WHERE Customer.CustomerID = 1
+ORDER BY DateBooked
+
+SELECT  
+	   DepartureAirport + ' - ' + ArrivalAirport + ' (' + CONVERT(VARCHAR(MAX),DepartureTime) + ')'AS TicketInfo,
+	   Booking.DateBooked,
+	   Booking.Total
+FROM Booking
+INNER JOIN Ticket ON Booking.TicketID = Ticket.TicketID
+WHERE Booking.CustomerID = 1
+ORDER BY DateBooked

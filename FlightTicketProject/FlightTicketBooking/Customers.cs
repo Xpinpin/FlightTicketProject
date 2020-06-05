@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace FlightTicketBooking
     public partial class Customers : Form
     {
         mainForm myParent;
-        int currentCustomer = 0;
+        private int currentCustomer = 0;
         int firstCustomer = 0;
         int lastCustomer = 0;
         int? previousCustomer = 0;
@@ -34,7 +35,7 @@ namespace FlightTicketBooking
         private void DisplayCurrentPosition()
         {
             int totalRecord = Convert.ToInt32(DataAccess.GetValue("SELECT COUNT(*) FROM Customer"));
-            myParent.toolStripStatusLabel2.Text = $"Display customer {currentRecord} of {totalRecord}";
+            myParent.toolStripStatusLabel2.Text = $"Display customer {currentRecord} of {totalRecord} |";
         }
 
         /// <summary>
@@ -357,9 +358,16 @@ namespace FlightTicketBooking
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete this customer?","Deletion",MessageBoxButtons.YesNo) == DialogResult.Yes)
+            try
             {
-                DeleteCustomer();
+                if (MessageBox.Show("Are you sure you want to delete this customer?", "Deletion", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    DeleteCustomer();
+                }
+            }
+            catch(SqlException ex)
+            {
+                MessageBox.Show("This customer is currently booking a ticket. You can not delete this.");
             }
         }
 
@@ -377,6 +385,11 @@ namespace FlightTicketBooking
             {
                 MessageBox.Show("The database records no rows affected");
             }
+        }
+
+        private void Customers_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            myParent.toolStripStatusLabel2.Text = "";
         }
     }
 }
