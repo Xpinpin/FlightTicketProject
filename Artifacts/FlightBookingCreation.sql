@@ -138,4 +138,7 @@ VALUES
 ('flightcharles','13579'),
 ('sophomoreplay','il9a1tb');
 
-SELECT * FROM Login
+SELECT * FROM Login;
+
+SELECT COUNT(*) FROM Booking WHERE IsPaid = 0 AND CustomerID = 4;
+SElECT COUNT(*) FROM Booking WHERE CustomerID = 4;

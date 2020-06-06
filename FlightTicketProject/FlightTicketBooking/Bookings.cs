@@ -31,6 +31,7 @@ namespace FlightTicketBooking
 
         private int currentRecord;
 
+        //Assign Business Rules: Tax rate for a ticket is 15%.  
         private const decimal TAX_RATE = 0.15m;
         public Bookings(mainForm parent)
         {
@@ -38,30 +39,16 @@ namespace FlightTicketBooking
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Assign Business Rules: Certain Payment Method.
+        /// </summary>
         private void LoadPaymentMethods()
         {
             string[] methods = new string[] {"","By Cash", "Debit Card", "Credit Card", "PayPal" };
             cmbMethod.DataSource = methods;
         }
 
-        private void DisplayCurrentPosition()
-        {
-            int totalRecord = Convert.ToInt32(DataAccess.GetValue("SELECT COUNT(*) FROM Booking"));
-            myParent.toolStripStatusLabel4.Text = $"Displaying booking {currentRecord} of {totalRecord} | ";
-        }
-
-        private void LoadCustomers()
-        {
-            DataTable dtCustomers = DataAccess.GetData("SELECT CustomerID,FirstName + ' ' + LastName AS CustomerName FROM Customer");
-
-            UIUtilities.FillListControl(cmbCustomers, "CustomerName", "CustomerID", dtCustomers, true, "");
-        }
-        private void LoadTickets()
-        {
-            DataTable dtTickets = DataAccess.GetData("SELECT TicketID, DepartureAirport + ' - ' + ArrivalAirport + ' (' + CONVERT(VARCHAR(MAX), DepartureTime) + ')'AS TicketInfo FROM Ticket");
-            UIUtilities.FillListControl(cmbTickets, "TicketInfo", "TicketID", dtTickets, true, "");
-        }
-
+        #region Events
         private void Bookings_Load(object sender, EventArgs e)
         {
             LoadCustomers();
@@ -70,10 +57,126 @@ namespace FlightTicketBooking
             LoadFirstBooking();
         }
 
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            UIUtilities.ClearControls(this.grpCustomerTicket.Controls);
+            UIUtilities.ClearControls(this.grpPayment.Controls);
+
+            cmbCustomers.Enabled = true;
+            cmbTickets.Enabled = true;
+            NavigationState(false);
+            btnAdd.Enabled = false;
+            btnDelete.Enabled = false;
+            btnUpdate.Text = "Save";
+            btnCancel.Text = "Cancel";
+        }
+
+        private void BtnUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ValidateChildren(ValidationConstraints.Enabled))
+                {
+                    if (btnCancel.Text == "Cancel")
+                    {
+                        //Assign Business Rules 08: A Customer with 2 unpaid tickets can not book another flight.
+                        if (UnpaidTickets() == 2)
+                        {
+                            MessageBox.Show($"{cmbCustomers.Text} can not book another flight because they have two unpaid tickets.","Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                            UIUtilities.ClearControls(this.grpCustomerTicket.Controls);
+                            UIUtilities.ClearControls(this.grpPayment.Controls);
+                            return;
+                        }
+
+                        CreateBooking();
+                        cmbCustomers.Enabled = false;
+                        cmbTickets.Enabled = false;
+                    }
+                    else
+                    {
+                        if (MessageBox.Show("Are you sure you want to update this booking?", "Update", MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            UpdateBooking();
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("This booking has already been created","Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                UIUtilities.ClearControls(this.grpCustomerTicket.Controls);
+                UIUtilities.ClearControls(this.grpPayment.Controls);
+            }
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to delete this booking?", "Deletion", MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                DeleteBooking();
+            }
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            if (btnUpdate.Text == "Save")
+            {
+                NavigationState(true);
+                btnAdd.Enabled = true;
+                btnDelete.Enabled = true;
+                btnUpdate.Text = "Update";
+                btnCancel.Text = "Exit";
+                LoadBookingDetails();
+                cmbCustomers.Enabled = false;
+                cmbTickets.Enabled = false;
+                errProvider.Clear();
+
+            }
+            else
+            {
+                this.Close();
+            }
+        }
+
+        private void Bookings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = false;
+        }
+
+        private void Bookings_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            myParent.toolStripStatusLabel4.Text = "";
+            myParent.toolStripStatusLabel7.Text = "";
+        }
+
+
+        #endregion
+
+        #region Retrieves
+        private void DisplayCurrentPosition()
+        {
+            int totalRecord = Convert.ToInt32(DataAccess.GetValue("SELECT COUNT(*) FROM Booking"));
+            myParent.toolStripStatusLabel4.Text = $"Displaying booking {currentRecord} of {totalRecord} | ";
+            myParent.toolStripStatusLabel7.Text = $"{cmbCustomers.Text} has {TotalTickets().ToString()} ({UnpaidTickets().ToString()} unpaid) tickets) |";
+        }
+
+        private void LoadCustomers()
+        {
+            DataTable dtCustomers = DataAccess.GetData("SELECT CustomerID,FirstName + ' ' + LastName AS CustomerName FROM Customer");
+
+            UIUtilities.FillListControl(cmbCustomers, "CustomerName", "CustomerID", dtCustomers, true, "");
+        }
+
+        private void LoadTickets()
+        {
+            DataTable dtTickets = DataAccess.GetData("SELECT TicketID, DepartureAirport + ' - ' + ArrivalAirport + ' (' + CONVERT(VARCHAR(MAX), DepartureTime) + ')'AS TicketInfo FROM Ticket");
+            UIUtilities.FillListControl(cmbTickets, "TicketInfo", "TicketID", dtTickets, true, "");
+        }
+
         private void LoadFirstBooking()
         {
             DataTable firstBooking = DataAccess.GetData("SELECT TOP 1 TicketID, CustomerID FROM Booking ORDER BY TicketID");
-            if(firstBooking.Rows.Count > 0)
+            if (firstBooking.Rows.Count > 0)
             {
                 currentTicket = Convert.ToInt32(firstBooking.Rows[0]["TicketID"]);
                 currentCustomer = Convert.ToInt32(firstBooking.Rows[0]["CustomerID"]);
@@ -83,6 +186,18 @@ namespace FlightTicketBooking
 
                 LoadBookingDetails();
             }
+        }
+
+        private int UnpaidTickets()
+        {
+            string sql = $"SELECT COUNT(*) FROM Booking WHERE IsPaid = 0 AND CustomerID = {cmbCustomers.SelectedValue}";
+            return Convert.ToInt32(DataAccess.GetValue(sql));
+        }
+
+        private int TotalTickets()
+        {
+            return Convert.ToInt32(DataAccess.GetValue($"SELECT COUNT(*) FROM Booking WHERE CustomerID = {cmbCustomers.SelectedValue}"));
+
         }
 
         private void LoadBookingDetails()
@@ -115,7 +230,7 @@ namespace FlightTicketBooking
 
             DataSet ds = DataAccess.GetData(sqlStatements);
 
-            if(ds.Tables[0].Rows.Count == 1)
+            if (ds.Tables[0].Rows.Count == 1)
             {
                 DataRow selectedBooking = ds.Tables[0].Rows[0];
                 cmbCustomers.SelectedValue = selectedBooking["CustomerID"];
@@ -151,123 +266,30 @@ namespace FlightTicketBooking
             }
             else
             {
-                MessageBox.Show("This booking does not exist");
+                MessageBox.Show("This booking does not exist","Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 LoadFirstBooking();
             }
         }
+        #endregion
 
-       private void NavigationHandler(object sender, EventArgs e)
-       {
-            Button btn = (Button)sender;
-            switch (btn.Name)
-            {
-                case "btnFirst":
-                    currentTicket = firstTicket;
-                    currentCustomer = firstCustomer;
-                    break;
-                case "btnPrevious":
-                    currentTicket = previousTicket.Value;
-                    currentCustomer = previousCustomer.Value;
-                    break;
-                case "btnNext":
-                    currentTicket = nextTicket.Value;
-                    currentCustomer = nextCustomer.Value;
-                    break;
-                case "btnLast":
-                    currentTicket = lastTicket;
-                    currentCustomer = lastCustomer;
-                    break;
-            }
-            LoadBookingDetails();
-       }
-        private void NextPreviousButtonManagement()
-        {
-            btnNext.Enabled = nextCustomer != null;
-            btnPrevious.Enabled = previousCustomer != null;
-        }
-
-        private void NavigationState(bool state)
-        {
-            btnFirst.Enabled = state;
-            btnNext.Enabled = state;
-            btnPrevious.Enabled = state;
-            btnLast.Enabled = state;
-        }
-
-        private void BtnAdd_Click(object sender, EventArgs e)
-        {
-            UIUtilities.ClearControls(this.grpCustomerTicket.Controls);
-            UIUtilities.ClearControls(this.grpPayment.Controls);
-
-            cmbCustomers.Enabled = true;
-            cmbTickets.Enabled = true;
-            NavigationState(false);
-            btnAdd.Enabled = false;
-            btnDelete.Enabled = false;
-            btnUpdate.Text = "Save";
-            btnCancel.Text = "Cancel";
-        }
-
-        private void cmb_Validating(object sender, CancelEventArgs e)
-        {
-            ComboBox cmb = (ComboBox)sender;
-            string errMsg = null;
-            string cmbName = cmb.Tag.ToString();
-
-            if(cmb.SelectedIndex == 0)
-            {
-                errMsg = $"{cmbName} is required.";
-                e.Cancel = true;
-            }
-            errProvider.SetError(cmb, errMsg);
-        }
-
-        private void BtnUpdate_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (ValidateChildren(ValidationConstraints.Enabled))
-                {
-                    if (btnCancel.Text == "Cancel")
-                    {
-                        CreateBooking();
-                        cmbCustomers.Enabled = false;
-                        cmbTickets.Enabled = false;
-                    }
-                    else
-                    {
-                        if (MessageBox.Show("Are you sure you want to update this booking?", "Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            UpdateBooking();
-                        }
-                    }
-                }
-            }
-            catch(SqlException ex)
-            {
-                MessageBox.Show("This booking has already been created");
-                UIUtilities.ClearControls(this.grpCustomerTicket.Controls);
-                UIUtilities.ClearControls(this.grpPayment.Controls);
-            }
-        }
-
+        #region Non-Queries
         private void CreateBooking()
         {
-           
-                decimal subtotal = Convert.ToDecimal(DataAccess.GetValue($"SELECT InitialPrice FROM Ticket WHERE TicketID = {cmbTickets.SelectedValue}"));
-                decimal tax = subtotal * TAX_RATE;
-                decimal total = subtotal + tax;
-                string description;
-                if (txtDescription.Text == string.Empty)
-                {
-                    description = "NULL";
-                }
-                else
-                {
-                    description = $"'{txtDescription.Text.Trim()}'";
-                }
+            
+            decimal subtotal = Convert.ToDecimal(DataAccess.GetValue($"SELECT InitialPrice FROM Ticket WHERE TicketID = {cmbTickets.SelectedValue}"));
+            decimal tax = subtotal * TAX_RATE;
+            decimal total = subtotal + tax;
+            string description;
+            if (txtDescription.Text == string.Empty)
+            {
+                description = "NULL";
+            }
+            else
+            {
+                description = $"'{txtDescription.Text.Trim()}'";
+            }
 
-                string sqlInsertBooking = $@"INSERT INTO Booking
+            string sqlInsertBooking = $@"INSERT INTO Booking
                                         (CustomerID, TicketID, Subtotal, Tax, Total, DateBooked, PaymentMethod, IsPaid, Description)
                                         VALUES
                                         (
@@ -282,23 +304,23 @@ namespace FlightTicketBooking
                                             {description}
                                         )";
 
-                sqlInsertBooking = DataAccess.SQLCleaner(sqlInsertBooking);
-                int rowsAffected = DataAccess.SendData(sqlInsertBooking);
-                if (rowsAffected == 1)
-                {
-                    MessageBox.Show("The booking is created");
-                    LoadFirstBooking();
-                    btnAdd.Enabled = true;
-                    btnDelete.Enabled = true;
-                }
-                else
-                {
-                    MessageBox.Show("The database records no rows affected");
-                }
-                NextPreviousButtonManagement();
-                NavigationState(true);
-            
-            
+            sqlInsertBooking = DataAccess.SQLCleaner(sqlInsertBooking);
+            int rowsAffected = DataAccess.SendData(sqlInsertBooking);
+            if (rowsAffected == 1)
+            {
+                MessageBox.Show("The booking is created","Successful",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                LoadFirstBooking();
+                btnAdd.Enabled = true;
+                btnDelete.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("The database records no rows affected","Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+            NextPreviousButtonManagement();
+            NavigationState(true);
+
+
         }
 
         private void UpdateBooking()
@@ -325,48 +347,14 @@ namespace FlightTicketBooking
 
             sqlUpdateBooking = DataAccess.SQLCleaner(sqlUpdateBooking);
             int rowsAffected = DataAccess.SendData(sqlUpdateBooking);
-            if(rowsAffected == 1)
+            if (rowsAffected == 1)
             {
-                MessageBox.Show("The booking updated");
+                MessageBox.Show("The booking updated","Successful!",MessageBoxButtons.OK,MessageBoxIcon.Information);
 
             }
             else
             {
-                MessageBox.Show("The database does not record any rows affected");
-            }
-        }
-
-        private void Bookings_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = false;
-        }
-
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            if(btnUpdate.Text == "Save")
-            {
-                NavigationState(true);
-                btnAdd.Enabled = true;
-                btnDelete.Enabled = true;
-                btnUpdate.Text = "Update";
-                btnCancel.Text = "Exit";
-                LoadBookingDetails();
-                cmbCustomers.Enabled = false;
-                cmbTickets.Enabled = false;
-                errProvider.Clear();
-
-            }
-            else
-            {
-                this.Close();
-            }
-        }
-
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            if(MessageBox.Show("Are you sure you want to delete this booking?","Deletion",MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                DeleteBooking();
+                MessageBox.Show("The database does not record any rows affected","Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
 
@@ -376,20 +364,75 @@ namespace FlightTicketBooking
             sqlDeleteBooking = DataAccess.SQLCleaner(sqlDeleteBooking);
             int rowsAffected = DataAccess.SendData(sqlDeleteBooking);
 
-            if(rowsAffected == 1)
+            if (rowsAffected == 1)
             {
-                MessageBox.Show("The booking is deleted successfully");
+                MessageBox.Show("The booking is deleted successfully","Successful!",MessageBoxButtons.OK,MessageBoxIcon.Information);
                 LoadFirstBooking();
             }
             else
             {
-                MessageBox.Show("The database records no rows affected.");
+                MessageBox.Show("The database records no rows affected.","Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
 
-        private void Bookings_FormClosed(object sender, FormClosedEventArgs e)
+      
+        #endregion
+
+        #region Navigation
+        private void NavigationHandler(object sender, EventArgs e)
         {
-            myParent.toolStripStatusLabel4.Text = "";
+            Button btn = (Button)sender;
+            switch (btn.Name)
+            {
+                case "btnFirst":
+                    currentTicket = firstTicket;
+                    currentCustomer = firstCustomer;
+                    break;
+                case "btnPrevious":
+                    currentTicket = previousTicket.Value;
+                    currentCustomer = previousCustomer.Value;
+                    break;
+                case "btnNext":
+                    currentTicket = nextTicket.Value;
+                    currentCustomer = nextCustomer.Value;
+                    break;
+                case "btnLast":
+                    currentTicket = lastTicket;
+                    currentCustomer = lastCustomer;
+                    break;
+            }
+            LoadBookingDetails();
         }
+        private void NextPreviousButtonManagement()
+        {
+            btnNext.Enabled = nextCustomer != null;
+            btnPrevious.Enabled = previousCustomer != null;
+        }
+
+        private void NavigationState(bool state)
+        {
+            btnFirst.Enabled = state;
+            btnNext.Enabled = state;
+            btnPrevious.Enabled = state;
+            btnLast.Enabled = state;
+        }
+        #endregion
+
+        #region Validating
+        private void cmb_Validating(object sender, CancelEventArgs e)
+        {
+            ComboBox cmb = (ComboBox)sender;
+            string errMsg = null;
+            string cmbName = cmb.Tag.ToString();
+
+            if (cmb.SelectedIndex == 0)
+            {
+                errMsg = $"{cmbName} is required.";
+                e.Cancel = true;
+            }
+            errProvider.SetError(cmb, errMsg);
+        }
+        #endregion
+
     }
 }

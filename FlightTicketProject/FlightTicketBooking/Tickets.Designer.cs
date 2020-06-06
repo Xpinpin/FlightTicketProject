@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Tickets));
             this.label1 = new System.Windows.Forms.Label();
             this.txtID = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -76,6 +77,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(350, 24);
             this.label1.Name = "label1";
@@ -94,6 +96,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Location = new System.Drawing.Point(327, 62);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(29, 17);
@@ -102,21 +105,22 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.Controls.Add(this.cmbStart);
             this.groupBox1.Controls.Add(this.cmbDestination);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.txtArrAirport);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.txtDepAirport);
-            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.dtpArrival);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.dtpDeparture);
             this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.txtDepAirport);
             this.groupBox1.Location = new System.Drawing.Point(12, 105);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(369, 205);
+            this.groupBox1.Size = new System.Drawing.Size(369, 213);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Flight:";
@@ -124,7 +128,7 @@
             // cmbStart
             // 
             this.cmbStart.FormattingEnabled = true;
-            this.cmbStart.Location = new System.Drawing.Point(154, 142);
+            this.cmbStart.Location = new System.Drawing.Point(154, 88);
             this.cmbStart.Name = "cmbStart";
             this.cmbStart.Size = new System.Drawing.Size(179, 24);
             this.cmbStart.TabIndex = 24;
@@ -134,7 +138,7 @@
             // cmbDestination
             // 
             this.cmbDestination.FormattingEnabled = true;
-            this.cmbDestination.Location = new System.Drawing.Point(154, 172);
+            this.cmbDestination.Location = new System.Drawing.Point(154, 146);
             this.cmbDestination.Name = "cmbDestination";
             this.cmbDestination.Size = new System.Drawing.Size(179, 24);
             this.cmbDestination.TabIndex = 23;
@@ -144,7 +148,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(61, 173);
+            this.label7.Location = new System.Drawing.Point(53, 149);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(83, 17);
             this.label7.TabIndex = 10;
@@ -153,7 +157,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(59, 145);
+            this.label8.Location = new System.Drawing.Point(55, 91);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(81, 17);
             this.label8.TabIndex = 8;
@@ -161,7 +165,7 @@
             // 
             // txtArrAirport
             // 
-            this.txtArrAirport.Location = new System.Drawing.Point(154, 114);
+            this.txtArrAirport.Location = new System.Drawing.Point(154, 176);
             this.txtArrAirport.Name = "txtArrAirport";
             this.txtArrAirport.Size = new System.Drawing.Size(179, 22);
             this.txtArrAirport.TabIndex = 7;
@@ -171,15 +175,15 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(46, 117);
+            this.label6.Location = new System.Drawing.Point(38, 179);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(94, 17);
+            this.label6.Size = new System.Drawing.Size(98, 17);
             this.label6.TabIndex = 6;
-            this.label6.Text = "Arrival Airport";
+            this.label6.Text = "Arrival Airport:";
             // 
             // txtDepAirport
             // 
-            this.txtDepAirport.Location = new System.Drawing.Point(154, 86);
+            this.txtDepAirport.Location = new System.Drawing.Point(154, 118);
             this.txtDepAirport.Name = "txtDepAirport";
             this.txtDepAirport.Size = new System.Drawing.Size(179, 22);
             this.txtDepAirport.TabIndex = 5;
@@ -189,7 +193,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(18, 89);
+            this.label4.Location = new System.Drawing.Point(14, 121);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(122, 17);
             this.label4.TabIndex = 4;
@@ -207,7 +211,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(53, 60);
+            this.label3.Location = new System.Drawing.Point(49, 60);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(87, 17);
             this.label3.TabIndex = 2;
@@ -225,7 +229,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(29, 32);
+            this.label2.Location = new System.Drawing.Point(25, 32);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(111, 17);
             this.label2.TabIndex = 0;
@@ -233,6 +237,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
             this.groupBox2.Controls.Add(this.cmbSeat);
             this.groupBox2.Controls.Add(this.chkMeal);
             this.groupBox2.Controls.Add(this.label14);
@@ -448,6 +453,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.Color.Transparent;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.Red;
             this.label15.Location = new System.Drawing.Point(12, 409);
@@ -461,6 +467,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.btnLast);

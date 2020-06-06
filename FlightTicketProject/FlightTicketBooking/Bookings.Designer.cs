@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Bookings));
             this.label1 = new System.Windows.Forms.Label();
             this.grpCustomerTicket = new System.Windows.Forms.GroupBox();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
@@ -67,6 +68,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(350, 21);
             this.label1.Name = "label1";
@@ -76,6 +78,7 @@
             // 
             // grpCustomerTicket
             // 
+            this.grpCustomerTicket.BackColor = System.Drawing.Color.Transparent;
             this.grpCustomerTicket.Controls.Add(this.dtpDate);
             this.grpCustomerTicket.Controls.Add(this.label4);
             this.grpCustomerTicket.Controls.Add(this.cmbTickets);
@@ -148,6 +151,7 @@
             // 
             // grpPayment
             // 
+            this.grpPayment.BackColor = System.Drawing.Color.Transparent;
             this.grpPayment.Controls.Add(this.cmbMethod);
             this.grpPayment.Controls.Add(this.chkPaid);
             this.grpPayment.Controls.Add(this.txtDescription);
@@ -364,6 +368,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(840, 450);
             this.Controls.Add(this.btnLast);
             this.Controls.Add(this.btnNext);

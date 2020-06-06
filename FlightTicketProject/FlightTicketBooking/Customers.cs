@@ -27,28 +27,105 @@ namespace FlightTicketBooking
             InitializeComponent();
         }
 
+        #region Events
         private void Customers_Load(object sender, EventArgs e)
         {
             LoadFirstCustomer();
         }
 
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            UIUtilities.ClearControls(this.grpAddress.Controls);
+            UIUtilities.ClearControls(this.grpName.Controls);
+            UIUtilities.ClearControls(this.grpContact.Controls);
+            txtID.Text = "";
+            NavigationState(false);
+            btnAdd.Enabled = false;
+            btnDelete.Enabled = false;
+            btnUpdate.Text = "Save";
+            btnCancel.Text = "Cancel";
+
+        }
+
+        private void BtnUpdate_Click(object sender, EventArgs e)
+        {
+            if (ValidateChildren(ValidationConstraints.Enabled))
+            {
+                if (txtID.Text == string.Empty)
+                {
+                    AddNewCustomer();
+
+                }
+                else
+                {
+                    if (MessageBox.Show("Are you sure want to update?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        UpdateCustomer();
+
+                    }
+                }
+            }
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            if (btnUpdate.Text == "Save")
+            {
+                NavigationState(true);
+                btnAdd.Enabled = true;
+                btnDelete.Enabled = true;
+                btnUpdate.Text = "Update";
+                btnCancel.Text = "Exit";
+                LoadCustomerDetails();
+                errProvider.Clear();
+            }
+            else
+            {
+                this.Close();
+            }
+
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Are you sure you want to delete this customer?", "Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    DeleteCustomer();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("This customer is currently booking a ticket. You can not delete this.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Customers_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = false;
+        }
+
+        private void Customers_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            myParent.toolStripStatusLabel2.Text = "";
+        }
+
+        #endregion
+
+        #region Retrieves
         private void DisplayCurrentPosition()
         {
             int totalRecord = Convert.ToInt32(DataAccess.GetValue("SELECT COUNT(*) FROM Customer"));
             myParent.toolStripStatusLabel2.Text = $"Display customer {currentRecord} of {totalRecord} |";
         }
 
-        /// <summary>
-        /// Load the first customer in the database. Order by FirstMame, LastName
-        /// </summary>
         private void LoadFirstCustomer()
         {
             object firstID = DataAccess.GetValue("SELECT TOP 1 CustomerID FROM Customer ORDER BY FirstName, LastName");
 
             currentCustomer = Convert.ToInt32(firstID);
             LoadCustomerDetails();
-            
-
         }
 
         private void LoadCustomerDetails()
@@ -77,7 +154,7 @@ namespace FlightTicketBooking
 
             DataSet dt = DataAccess.GetData(sqlStatements);
 
-            if(dt.Tables[0].Rows.Count == 1)
+            if (dt.Tables[0].Rows.Count == 1)
             {
                 DataRow row = dt.Tables[0].Rows[0];
                 txtID.Text = row["CustomerID"].ToString();
@@ -106,135 +183,20 @@ namespace FlightTicketBooking
             }
             else
             {
-                MessageBox.Show("The customer does not exist");
+                MessageBox.Show("The customer does not exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LoadFirstCustomer();
             }
         }
 
-        private void NavigationHandler(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            switch (btn.Name)
-            {
-                case "btnFirst":
-                    currentCustomer = firstCustomer;
-                    break;
-                case "btnNext":
-                    currentCustomer = nextCustomer.Value;
-                    break;
-                case "btnPrevious":
-                    currentCustomer = previousCustomer.Value;
-                    break;
-                case "btnLast":
-                    currentCustomer = lastCustomer;
-                    break;
-            }
-            LoadCustomerDetails();
-        }
+        #endregion
 
-        private void NextPreviousButtonManagement()
-        {
-            btnNext.Enabled = nextCustomer != null;
-            btnPrevious.Enabled = previousCustomer != null;
-        }
-
-        private void NavigationState(bool state)
-        {
-            btnFirst.Enabled = state;
-            btnNext.Enabled = state;
-            btnPrevious.Enabled = state;
-            btnLast.Enabled = state;
-        }
-
-        private void BtnAdd_Click(object sender, EventArgs e)
-        {
-            UIUtilities.ClearControls(this.grpAddress.Controls);
-            UIUtilities.ClearControls(this.grpName.Controls);
-            UIUtilities.ClearControls(this.grpContact.Controls);
-            txtID.Text = "";
-            NavigationState(false);
-            btnAdd.Enabled = false;
-            btnDelete.Enabled = false;
-            btnUpdate.Text = "Save";
-            btnCancel.Text = "Cancel";
-
-        }
-
-        private void txt_Validating(object sender, CancelEventArgs e)
-        {
-            TextBox txt = (TextBox)sender;
-            string errMsg = null;
-            string txtName = txt.Tag.ToString();
-
-            if(txt.Text == string.Empty)
-            {
-                errMsg = $"{txtName} is required.";
-                e.Cancel = true;
-            }
-
-            if(txt.Name == "txtStreetNum")
-            {
-                if(!int.TryParse(txt.Text, out int c))
-                {
-                    errMsg = $"{txtName} is not a valid number";
-                    e.Cancel = true;
-                }
-            }
-           
-
-            errProvider.SetError(txt, errMsg);
-        }
-
-        private void BtnUpdate_Click(object sender, EventArgs e)
-        {
-            if (ValidateChildren(ValidationConstraints.Enabled))
-            {
-                if(txtID.Text == string.Empty)
-                {
-                    AddNewCustomer();
-
-                }
-                else
-                {
-                    if(MessageBox.Show("Are you sure want to update?","Update",MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        UpdateCustomer();
-
-                    }
-                }
-            }
-        }
-
-        private void Customers_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = false;
-        }
-
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            if(btnUpdate.Text == "Save")
-            {
-                NavigationState(true);
-                btnAdd.Enabled = true;
-                btnDelete.Enabled = true;
-                btnUpdate.Text = "Update";
-                btnCancel.Text = "Exit";
-                LoadCustomerDetails();
-                errProvider.Clear();
-            }
-            else
-            {
-                this.Close();
-            }
-            
-        }
-
+        #region Non-queries
         private void AddNewCustomer()
         {
             string middleName = "";
             string province = "";
             string postalCode = "";
-            if(txtMiddleName.Text == string.Empty)
+            if (txtMiddleName.Text == string.Empty)
             {
                 middleName = "NULL";
             }
@@ -281,21 +243,22 @@ namespace FlightTicketBooking
 
             sqlInserterCustomer = DataAccess.SQLCleaner(sqlInserterCustomer);
             int rowsAffected = DataAccess.SendData(sqlInserterCustomer);
-            if(rowsAffected == 1)
+            if (rowsAffected == 1)
             {
-                MessageBox.Show("A customer is added");
+                MessageBox.Show("A customer is added", "Successful!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadFirstCustomer();
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
-                
+
             }
             else
             {
-                MessageBox.Show("The database records no row affected");
+                MessageBox.Show("The database records no row affected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             NextPreviousButtonManagement();
             NavigationState(true);
         }
+
         private void UpdateCustomer()
         {
             string middleName = "";
@@ -346,28 +309,13 @@ namespace FlightTicketBooking
 
             sqlUpdateCustomer = DataAccess.SQLCleaner(sqlUpdateCustomer);
             int rowsAffected = DataAccess.SendData(sqlUpdateCustomer);
-            if(rowsAffected == 1)
+            if (rowsAffected == 1)
             {
-                MessageBox.Show("Customer updated.");
+                MessageBox.Show("Customer updated.", "Successful!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("The database records no rows affected");
-            }
-        }
-
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (MessageBox.Show("Are you sure you want to delete this customer?", "Deletion", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    DeleteCustomer();
-                }
-            }
-            catch(SqlException ex)
-            {
-                MessageBox.Show("This customer is currently booking a ticket. You can not delete this.");
+                MessageBox.Show("The database records no rows affected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -376,20 +324,81 @@ namespace FlightTicketBooking
             string sqlDeleteCustomer = $"DELETE FROM Customer WHERE CustomerID = {txtID.Text}";
 
             int rowsAffected = DataAccess.SendData(sqlDeleteCustomer);
-            if(rowsAffected == 1)
+            if (rowsAffected == 1)
             {
-                MessageBox.Show("Customer deleted");
+                MessageBox.Show("Customer deleted", "Successful!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadFirstCustomer();
             }
             else
             {
-                MessageBox.Show("The database records no rows affected");
+                MessageBox.Show("The database records no rows affected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
 
-        private void Customers_FormClosed(object sender, FormClosedEventArgs e)
+        #region Navigation
+        private void NavigationHandler(object sender, EventArgs e)
         {
-            myParent.toolStripStatusLabel2.Text = "";
+            Button btn = (Button)sender;
+            switch (btn.Name)
+            {
+                case "btnFirst":
+                    currentCustomer = firstCustomer;
+                    break;
+                case "btnNext":
+                    currentCustomer = nextCustomer.Value;
+                    break;
+                case "btnPrevious":
+                    currentCustomer = previousCustomer.Value;
+                    break;
+                case "btnLast":
+                    currentCustomer = lastCustomer;
+                    break;
+            }
+            LoadCustomerDetails();
         }
+
+        private void NextPreviousButtonManagement()
+        {
+            btnNext.Enabled = nextCustomer != null;
+            btnPrevious.Enabled = previousCustomer != null;
+        }
+
+        private void NavigationState(bool state)
+        {
+            btnFirst.Enabled = state;
+            btnNext.Enabled = state;
+            btnPrevious.Enabled = state;
+            btnLast.Enabled = state;
+        }
+        #endregion
+
+        #region Validating
+        private void txt_Validating(object sender, CancelEventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+            string errMsg = null;
+            string txtName = txt.Tag.ToString();
+
+            if (txt.Text == string.Empty)
+            {
+                errMsg = $"{txtName} is required.";
+                e.Cancel = true;
+            }
+
+            if (txt.Name == "txtStreetNum")
+            {
+                if (!int.TryParse(txt.Text, out int c))
+                {
+                    errMsg = $"{txtName} is not a valid number";
+                    e.Cancel = true;
+                }
+            }
+            errProvider.SetError(txt, errMsg);
+        }
+
+        #endregion
+
+       
     }
 }

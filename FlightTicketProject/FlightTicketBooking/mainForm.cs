@@ -120,7 +120,7 @@ namespace FlightTicketBooking
             //    }
 
             //}
-            toolStripStatusLabel1.Text = "Login Date: " + DateTime.Now.ToShortDateString();
+            toolStripStatusLabel1.Text = "Login Date: " + DateTime.Now.ToShortDateString() + " |";
         }
 
         private void DefinitionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -140,7 +140,44 @@ namespace FlightTicketBooking
                              "WJA - Westjet Airlines \r\n" +
                              "ANA - All Nippon Airlines \r\n" +
                              "EVA - Eva Airlines";
-            MessageBox.Show(helpers,"Definition");
+            MessageBox.Show(helpers,"Definition",MessageBoxButtons.OK,MessageBoxIcon.Information);
+        }
+
+        private void AccountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Coming Soon.");
+        }
+
+        private void PrintToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Coming Soon.");
+        }
+
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Coming Soon.");
+        }
+
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Coming Soon.");
+        }
+
+        private void LogOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Coming Soon.");
+        }
+
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Coming Soon.");
+        }
+
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"{Application.ProductName} \r\n" +
+                            $"{Application.ProductVersion} \r\n" +
+                            $"{Application.CompanyName}","About",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
     }
 }

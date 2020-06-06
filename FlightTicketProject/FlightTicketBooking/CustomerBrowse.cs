@@ -97,7 +97,7 @@ namespace FlightTicketBooking
             {
                 totalPrice += Convert.ToDecimal(dgvInfo.Rows[i].Cells["Total"].Value.ToString());
             }
-            MessageBox.Show($"The total money this customer has spent for booking tickets is {totalPrice.ToString("c")}");
+            MessageBox.Show($"The total money this customer has spent for booking tickets is {totalPrice.ToString("c")}","Information",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
         private void CustomerBrowse_FormClosed(object sender, FormClosedEventArgs e)

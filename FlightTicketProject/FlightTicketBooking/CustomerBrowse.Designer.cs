@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomerBrowse));
             this.label1 = new System.Windows.Forms.Label();
             this.grpCustomers = new System.Windows.Forms.GroupBox();
             this.cmbCustomers = new System.Windows.Forms.ComboBox();
@@ -48,6 +49,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(241, 20);
             this.label1.Name = "label1";
@@ -57,6 +59,7 @@
             // 
             // grpCustomers
             // 
+            this.grpCustomers.BackColor = System.Drawing.Color.Transparent;
             this.grpCustomers.Controls.Add(this.cmbCustomers);
             this.grpCustomers.Controls.Add(this.label2);
             this.grpCustomers.Location = new System.Drawing.Point(246, 63);
@@ -98,6 +101,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Location = new System.Drawing.Point(132, 156);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(64, 17);
@@ -107,6 +111,7 @@
             // lblAddress
             // 
             this.lblAddress.AutoSize = true;
+            this.lblAddress.BackColor = System.Drawing.Color.Transparent;
             this.lblAddress.Location = new System.Drawing.Point(196, 156);
             this.lblAddress.Name = "lblAddress";
             this.lblAddress.Size = new System.Drawing.Size(0, 17);
@@ -115,6 +120,7 @@
             // lblContactNum
             // 
             this.lblContactNum.AutoSize = true;
+            this.lblContactNum.BackColor = System.Drawing.Color.Transparent;
             this.lblContactNum.Location = new System.Drawing.Point(196, 186);
             this.lblContactNum.Name = "lblContactNum";
             this.lblContactNum.Size = new System.Drawing.Size(0, 17);
@@ -123,6 +129,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Location = new System.Drawing.Point(82, 186);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(114, 17);
@@ -132,6 +139,7 @@
             // lblEmail
             // 
             this.lblEmail.AutoSize = true;
+            this.lblEmail.BackColor = System.Drawing.Color.Transparent;
             this.lblEmail.Location = new System.Drawing.Point(196, 245);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(0, 17);
@@ -140,6 +148,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
             this.label8.Location = new System.Drawing.Point(150, 245);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(46, 17);
@@ -149,6 +158,7 @@
             // lblHomeNum
             // 
             this.lblHomeNum.AutoSize = true;
+            this.lblHomeNum.BackColor = System.Drawing.Color.Transparent;
             this.lblHomeNum.Location = new System.Drawing.Point(196, 217);
             this.lblHomeNum.Name = "lblHomeNum";
             this.lblHomeNum.Size = new System.Drawing.Size(0, 17);
@@ -157,6 +167,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
             this.label10.Location = new System.Drawing.Point(93, 217);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(103, 17);
@@ -167,6 +178,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.lblHomeNum);
             this.Controls.Add(this.label10);

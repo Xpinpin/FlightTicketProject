@@ -111,11 +111,11 @@ namespace FlightTicketBooking
                                                                 AND Booking.TicketID = {cmbTickets.SelectedValue}")));
             if(isPaid == 0)
             {
-                MessageBox.Show($"{dgvInfo.CurrentRow.Cells[0].Value.ToString()} has not paid for this ticket");
+                MessageBox.Show($"{dgvInfo.CurrentRow.Cells[0].Value.ToString()} has not paid for this ticket","Information!",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show($"This ticket has been paid by {dgvInfo.CurrentRow.Cells[0].Value.ToString()}");
+                MessageBox.Show($"This ticket has been paid by {dgvInfo.CurrentRow.Cells[0].Value.ToString()}","Information",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
             
         }
