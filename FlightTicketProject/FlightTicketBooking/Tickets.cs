@@ -256,6 +256,7 @@ namespace FlightTicketBooking
                 LoadFirstTicket();
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
+                btnPrevious.Enabled = false;
             }
             else
             {

@@ -287,7 +287,7 @@
             this.Controls.Add(this.label1);
             this.Name = "TicketsBrowse";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "TicketsBrowse";
+            this.Text = "Tickets Browse";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TicketsBrowse_FormClosed);
             this.Load += new System.EventHandler(this.TicketsBrowse_Load);
             this.grpTickets.ResumeLayout(false);

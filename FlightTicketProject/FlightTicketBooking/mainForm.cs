@@ -100,26 +100,26 @@ namespace FlightTicketBooking
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //Splash splash = new Splash();
-            //Login login = new Login();
-            //splash.ShowDialog();
-            //if (splash.DialogResult != DialogResult.OK)
-            //{
-            //    this.Close();
-            //}
-            //else
-            //{
-            //    login.ShowDialog();
-            //    if (login.DialogResult != DialogResult.OK)
-            //    {
-            //        this.Close();
-            //    }
-            //    else
-            //    {
-            //        this.Show();
-            //    }
+            Splash splash = new Splash();
+            Login login = new Login();
+            splash.ShowDialog();
+            if (splash.DialogResult != DialogResult.OK)
+            {
+                this.Close();
+            }
+            else
+            {
+                login.ShowDialog();
+                if (login.DialogResult != DialogResult.OK)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    this.Show();
+                }
 
-            //}
+            }
             toolStripStatusLabel1.Text = "Login Date: " + DateTime.Now.ToShortDateString() + " |";
         }
 

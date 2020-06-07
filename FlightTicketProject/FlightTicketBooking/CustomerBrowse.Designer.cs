@@ -193,7 +193,7 @@
             this.Controls.Add(this.label1);
             this.Name = "CustomerBrowse";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CustomerBrowse";
+            this.Text = "Customers Browse";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CustomerBrowse_FormClosed);
             this.Load += new System.EventHandler(this.CustomerBrowse_Load);
             this.grpCustomers.ResumeLayout(false);

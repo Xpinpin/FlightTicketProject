@@ -7,12 +7,13 @@
     <ProjectGuid>{FDEB1289-665D-4DD2-AAAD-44EE4C5D9C1F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FlightTicketBooking</RootNamespace>
-    <AssemblyName>FlightTicketBooking</AssemblyName>
+    <AssemblyName>Flight Ticket Booking</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <PublishUrl>publish\</PublishUrl>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>D:\Spring 2020\Database Programming\FlightTicketProject\Artifacts\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -22,10 +23,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -46,6 +47,24 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>MyCert.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>2B066A4344C7899B8D66B033A5A540183D708645</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>FlightTicketBooking_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -147,6 +166,8 @@
     <EmbeddedResource Include="TicketsBrowse.resx">
       <DependentUpon>TicketsBrowse.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="FlightTicketBooking_TemporaryKey.pfx" />
+    <None Include="MyCert.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -173,7 +194,16 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\png-transparent-airplane-microsoft-flight-icon-a5-computer-icons-flying-the-plane-logo-flight-transport-thumbnail.png" />
+    <Content Include="images\airplane_033.jpg" />
+    <Content Include="images\background-scene-with-airplane-flying-vector.jpg" />
+    <Content Include="images\booking.jpg" />
+    <Content Include="images\cusBrowse.png" />
+    <Content Include="images\cusMain.jpg" />
+    <Content Include="images\flight-2974784_960_720.jpg" />
+    <Content Include="images\skyBackground.jpg" />
+    <Content Include="images\ticketBrowse.jfif" />
+    <Content Include="images\ticketMain.png" />
+    <Content Include="images\ticketsBrowse.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

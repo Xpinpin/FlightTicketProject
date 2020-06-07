@@ -35,7 +35,7 @@ namespace FlightTicketBooking
 
         private void DisplayNumberOfCustomers()
         {
-            myParent.toolStripStatusLabel6.Text = $"The current cticket has been booked by {dgvInfo.Rows.Count} customers |";
+            myParent.toolStripStatusLabel6.Text = $"The current ticket has been booked by {dgvInfo.Rows.Count} customers |";
             myParent.toolStripStatusLabel6.ForeColor = Color.Black;
         }
 
